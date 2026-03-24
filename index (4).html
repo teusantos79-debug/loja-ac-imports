@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AC Imports — Alto Conceito em Moda Masculina</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+  :root {
+    --bg: #080808;
+    --bg2: #0f0f0f;
+    --bg3: #161616;
+    --gold: #c9a84c;
+    --gold2: #e8c97a;
+    --white: #f5f0e8;
+    --muted: #6b6560;
+    --border: rgba(201,168,76,0.15);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CURSOR */
+  #cursor {
+    width: 10px; height: 10px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed; top:0; left:0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease;
+    mix-blend-mode: difference;
+  }
+  #cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(201,168,76,0.5);
+    border-radius: 50%;
+    position: fixed; top:0; left:0;
+    pointer-events: none;
+    z-index: 9998;
+    transition: all 0.08s ease;
+  }
+  body:hover #cursor { transform: scale(1); }
+  a:hover ~ #cursor, button:hover ~ #cursor { transform: scale(2.5); }
+
+  /* TYPOGRAPHY */
+  .font-display { font-family: 'Syne', sans-serif; }
+
+  /* GLASS */
+  .glass {
+    background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 0.5px solid var(--border);
+  }
+
+  /* HEADER */
+  header {
+    position: fixed; top:0; left:0; right:0; z-index: 100;
+    padding: 1.5rem 3rem;
+    transition: background 0.4s ease;
+  }
+  header.scrolled {
+    background: rgba(8,8,8,0.85);
+    backdrop-filter: blur(24px);
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    position: relative;
+    display: flex; align-items: center;
+    overflow: hidden;
+  }
+  #hero-bg {
+    position: absolute; inset:0;
+    background-image: url('https://i.ibb.co/GQpdhTbB/Captura-de-Tela-1-ac-imports.png');
+    background-size: cover;
+    background-position: center 20%;
+    transform: scale(1.08);
+  }
+  #hero-overlay {
+    position: absolute; inset:0;
+    background: linear-gradient(105deg, rgba(8,8,8,0.95) 40%, rgba(8,8,8,0.5) 75%, rgba(8,8,8,0.2) 100%);
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 0.5px solid var(--gold);
+    color: var(--gold);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 2px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 500;
+  }
+  .hero-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(3.2rem, 7vw, 6.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: var(--white);
+  }
+  .hero-title .accent { color: var(--gold); }
+  .hero-sub {
+    font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+    color: rgba(245,240,232,0.55);
+    line-height: 1.7;
+    max-width: 420px;
+    font-weight: 300;
+  }
+
+  /* CTA */
+  .cta-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--gold);
+    color: #080808;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 16px 32px;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  .cta-primary::before {
+    content:'';
+    position: absolute; inset:0;
+    background: var(--gold2);
+    transform: translateX(-101%);
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  }
+  .cta-primary:hover::before { transform: translateX(0); }
+  .cta-primary span { position: relative; z-index:1; }
+  .cta-primary .arrow { position: relative; z-index:1; transition: transform 0.3s; }
+  .cta-primary:hover .arrow { transform: translateX(5px); }
+
+  .cta-secondary {
+    display: inline-flex; align-items: center; gap: 10px;
+    border: 0.5px solid rgba(245,240,232,0.3);
+    color: var(--white);
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 15px 28px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  .cta-secondary:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* MARQUEE */
+  .marquee-track {
+    display: flex;
+    gap: 3rem;
+    animation: marquee 20s linear infinite;
+    white-space: nowrap;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .marquee-item {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex; align-items: center; gap: 1.5rem;
+  }
+  .marquee-dot {
+    width: 4px; height: 4px;
+    background: var(--gold);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* BENTO GRID */
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto;
+    gap: 16px;
+  }
+  .bento-card {
+    background: var(--bg2);
+    border: 0.5px solid rgba(255,255,255,0.06);
+    overflow: hidden;
+    position: relative;
+    transition: border-color 0.3s ease;
+  }
+  .bento-card:hover { border-color: var(--border); }
+  .bento-card img {
+    width:100%; height:100%;
+    object-fit:cover;
+    transition: transform 0.6s ease;
+    display: block;
+  }
+  .bento-card:hover img { transform: scale(1.04); }
+
+  .card-a { grid-column: span 7; min-height: 420px; }
+  .card-b { grid-column: span 5; min-height: 420px; }
+  .card-c { grid-column: span 4; min-height: 280px; }
+  .card-d { grid-column: span 4; min-height: 280px; }
+  .card-e { grid-column: span 4; min-height: 280px; }
+
+  .card-content {
+    position: absolute; inset:0;
+    background: linear-gradient(to top, rgba(8,8,8,0.9) 0%, transparent 60%);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 2rem;
+  }
+  .card-tag {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--white);
+  }
+  .card-desc {
+    font-size: 13px;
+    color: rgba(245,240,232,0.55);
+    margin-top: 6px;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* STAT BOX */
+  .stat-box {
+    background: var(--bg2);
+    border: 0.5px solid rgba(255,255,255,0.06);
+    padding: 2rem;
+    transition: border-color 0.3s;
+  }
+  .stat-box:hover { border-color: var(--border); }
+  .stat-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 6px;
+    letter-spacing: 0.05em;
+  }
+
+  /* ABOUT SECTION */
+  .about-img {
+    height: 600px;
+    object-fit: cover;
+    width: 100%;
+  }
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    opacity: 0.3;
+  }
+
+  /* TESTIMONIALS */
+  .testimonial-card {
+    background: var(--bg2);
+    border: 0.5px solid rgba(255,255,255,0.06);
+    padding: 2.5rem;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .testimonial-card:hover {
+    border-color: var(--border);
+    transform: translateY(-4px);
+  }
+  .stars { color: var(--gold); font-size: 14px; letter-spacing: 2px; }
+  .testimonial-text {
+    font-size: 15px;
+    line-height: 1.75;
+    color: rgba(245,240,232,0.7);
+    font-weight: 300;
+    font-style: italic;
+  }
+  .testimonial-author {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  /* REVEAL ANIM */
+  .reveal { opacity:0; transform: translateY(40px); }
+
+  /* FOOTER */
+  footer {
+    border-top: 0.5px solid rgba(255,255,255,0.06);
+  }
+
+  /* WHATSAPP FLOAT */
+  .wa-float {
+    position: fixed;
+    bottom: 2rem; right: 2rem;
+    width: 56px; height: 56px;
+    background: #25D366;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 200;
+    box-shadow: 0 4px 24px rgba(37,211,102,0.35);
+    transition: transform 0.3s ease, box-shadow 0.3s;
+    text-decoration: none;
+  }
+  .wa-float:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 32px rgba(37,211,102,0.5);
+  }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::before {
+    content:'';
+    display: block;
+    width: 32px; height: 1px;
+    background: var(--gold);
+  }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    header { padding: 1.2rem 1.5rem; }
+    .card-a, .card-b, .card-c, .card-d, .card-e { grid-column: span 12; }
+    .card-a, .card-b { min-height: 300px; }
+    .hero-title { font-size: 2.8rem; }
+    .about-img { height: 380px; }
+    body { cursor: auto; }
+    #cursor, #cursor-ring { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/message/GRTYEKP3PU3OO1" target="_blank" class="wa-float" aria-label="WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="white">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+    <path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.975-1.418A9.954 9.954 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.946 7.946 0 01-4.051-1.105l-.29-.172-3.01.859.873-2.944-.19-.302A7.944 7.944 0 014 12c0-4.418 3.582-8 8-8s8 3.582 8 8-3.582 8-8 8z"/>
+  </svg>
+</a>
+
+<!-- HEADER -->
+<header id="header">
+  <div style="max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;">
+    <div class="font-display" style="font-size:1.4rem;font-weight:800;letter-spacing:-0.02em;color:var(--white);">
+      AC<span style="color:var(--gold);">.</span>IMPORTS
+    </div>
+    <nav style="display:flex;gap:2.5rem;" class="hidden md:flex">
+      <a href="#diferenciais" style="font-size:13px;letter-spacing:0.05em;color:var(--muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--muted)'">Diferenciais</a>
+      <a href="#sobre" style="font-size:13px;letter-spacing:0.05em;color:var(--muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--muted)'">Sobre</a>
+      <a href="#depoimentos" style="font-size:13px;letter-spacing:0.05em;color:var(--muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--muted)'">Avaliações</a>
+      <a href="#" onclick="openPage('kits');return false;" style="font-size:13px;letter-spacing:0.05em;color:var(--gold);text-decoration:none;border:0.5px solid var(--border);padding:6px 14px;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border)'">Kits &amp; Produtos</a>
+      <a href="#kits" onclick="openPage('kits');return false;" style="font-size:13px;letter-spacing:0.05em;color:var(--muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">Kits &amp; Produtos</a>
+    </nav>
+    <a href="https://wa.me/message/GRTYEKP3PU3OO1" target="_blank" class="cta-primary" style="padding:12px 24px;font-size:12px;">
+      <span>Falar Agora</span>
+      <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="hero">
+  <div id="hero-bg"></div>
+  <div id="hero-overlay"></div>
+  <div style="max-width:1400px;margin:0 auto;padding:0 3rem;position:relative;z-index:2;width:100%;padding-top:120px;padding-bottom:80px;">
+    <div id="hero-content" style="max-width:680px;">
+      <div class="hero-tag" id="h-tag" style="opacity:0;">
+        <span style="width:6px;height:6px;background:var(--gold);border-radius:50%;display:inline-block;"></span>
+        Excelência desde 2017 · São Vicente, SP
+      </div>
+      <div style="margin-top:2rem;">
+        <h1 class="hero-title" id="h-title" style="opacity:0;">
+          Alto Conceito<br/>em <span class="accent">Moda</span><br/>Masculina.
+        </h1>
+      </div>
+      <p class="hero-sub" id="h-sub" style="opacity:0;margin-top:1.5rem;">
+        Peças selecionadas com rigor, estilo que fala por você. Para o homem que sabe o que quer — e não aceita menos do que o melhor.
+      </p>
+      <div style="display:flex;gap:1rem;margin-top:2.5rem;flex-wrap:wrap;" id="h-ctas" style="opacity:0;">
+        <a href="https://wa.me/message/GRTYEKP3PU3OO1" target="_blank" class="cta-primary">
+          <span>Ver Coleção</span>
+          <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#sobre" class="cta-secondary">Nossa História</a>
+      </div>
+    </div>
+    <div style="position:absolute;right:3rem;bottom:4rem;text-align:right;" id="h-stats" style="opacity:0;">
+      <div style="font-family:'Syne',sans-serif;font-size:3.5rem;font-weight:800;color:var(--gold);line-height:1;">5.0</div>
+      <div style="font-size:12px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px;">Avaliação Google</div>
+    </div>
+  </div>
+  <div style="position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;z-index:2;">
+    <span style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);">Scroll</span>
+    <div style="width:1px;height:48px;background:linear-gradient(to bottom,var(--gold),transparent);animation:pulse 2s ease-in-out infinite;"></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div style="overflow:hidden;border-top:0.5px solid rgba(255,255,255,0.06);border-bottom:0.5px solid rgba(255,255,255,0.06);padding:1.2rem 0;background:var(--bg2);">
+  <div style="display:flex;">
+    <div class="marquee-track">
+      <div class="marquee-item">Moda Masculina<span class="marquee-dot"></span></div>
+      <div class="marquee-item">Alto Conceito<span class="marquee-dot"></span></div>
+      <div class="marquee-item">Estilo Exclusivo<span class="marquee-dot"></span></div>
+      <div class="marquee-item">Atendimento Premium<span class="marquee-dot"></span></div>
+      <div class="marquee-item">São Vicente · SP<span class="marquee-dot"></span></div>
+      <div class="marquee-item">Desde 2017<span class="marquee-dot"></span></div>
+      <div class="marquee-item">Nota 5,0 Google<span class="marquee-dot"></span></div>
+      <div class="marquee-item">Qualidade Importada<span class="marquee-dot"></span></div>
+      <div class="marquee-item">Moda Masculina<span class="marquee-dot"></span></div>
+      <div class="marquee-item">Alto Conceito<span class="marquee-dot"></span></div>
+      <div class="marquee-item">Estilo Exclusivo<span class="marquee-dot"></span></div>
+      <div class="marquee-item">Atendimento Premium<span class="marquee-dot"></span></div>
+      <div class="marquee-item">São Vicente · SP<span class="marquee-dot"></span></div>
+      <div class="marquee-item">Desde 2017<span class="marquee-dot"></span></div>
+      <div class="marquee-item">Nota 5,0 Google<span class="marquee-dot"></span></div>
+      <div class="marquee-item">Qualidade Importada<span class="marquee-dot"></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<section style="padding:5rem 3rem;max-width:1400px;margin:0 auto;">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;border:0.5px solid rgba(255,255,255,0.06);">
+    <div class="stat-box reveal">
+      <div class="stat-number">+7</div>
+      <div class="stat-label">Anos de Excelência</div>
+    </div>
+    <div class="stat-box reveal">
+      <div class="stat-number">5,0</div>
+      <div class="stat-label">Avaliação Média</div>
+    </div>
+    <div class="stat-box reveal">
+      <div class="stat-number">100%</div>
+      <div class="stat-label">Satisfação Garantida</div>
+    </div>
+    <div class="stat-box reveal">
+      <div class="stat-number">∞</div>
+      <div class="stat-label">Estilo Sem Limite</div>
+    </div>
+  </div>
+</section>
+
+<!-- DIFERENCIAIS BENTO -->
+<section id="diferenciais" style="padding:5rem 3rem;max-width:1400px;margin:0 auto;">
+  <div style="margin-bottom:3rem;" class="reveal">
+    <div class="section-label">Nossos Diferenciais</div>
+    <h2 class="font-display" style="font-size:clamp(2rem,4vw,3.2rem);font-weight:800;margin-top:1rem;line-height:1.05;letter-spacing:-0.02em;">
+      Porque a AC Imports<br/>é a escolha certa.
+    </h2>
+  </div>
+  <div class="bento-grid">
+    <div class="bento-card card-a reveal">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&auto=format&fit=crop&q=80" alt="Moda masculina premium"/>
+      <div class="card-content">
+        <div class="card-tag">Curadoria</div>
+        <div class="card-title">Peças Selecionadas<br/>com Critério</div>
+        <div class="card-desc">Cada item passa por uma seleção rigorosa de qualidade, estilo e durabilidade.</div>
+      </div>
+    </div>
+    <div class="bento-card card-b reveal" style="background:var(--bg3);display:flex;flex-direction:column;justify-content:flex-end;padding:2.5rem;">
+      <div style="flex:1;display:flex;align-items:center;justify-content:center;">
+        <div style="font-family:'Syne',sans-serif;font-size:5rem;font-weight:800;color:var(--gold);opacity:0.15;line-height:1;text-align:center;">AC</div>
+      </div>
+      <div class="card-tag">Atendimento</div>
+      <div class="card-title" style="color:var(--white);">Exclusividade no<br/>Atendimento</div>
+      <div class="card-desc">Você não é um cliente — é um convidado. Cada visita é uma experiência única e personalizada.</div>
+    </div>
+    <div class="bento-card card-c reveal">
+      <img src="https://i.ibb.co/dw8Fz0B0/camisa-qualidade.png" alt="Tecido de alto padrão AC Imports"/>
+      <div class="card-content">
+        <div class="card-tag">Qualidade</div>
+        <div class="card-title">Tecidos de Alto Padrão</div>
+      </div>
+    </div>
+    <div class="bento-card card-d reveal" style="background:var(--bg3);padding:2.5rem;display:flex;flex-direction:column;justify-content:center;">
+      <div style="width:48px;height:48px;border:0.5px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      <div class="card-tag">Reputação</div>
+      <div class="card-title" style="color:var(--white);">Nota 5,0<br/>no Google</div>
+      <div class="card-desc">A opinião de quem já comprou fala mais alto que qualquer anúncio.</div>
+    </div>
+    <div class="bento-card card-e reveal">
+      <img src="https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?w=600&auto=format&fit=crop&q=80" alt="Moda masculina street"/>
+      <div class="card-content">
+        <div class="card-tag">Estilo</div>
+        <div class="card-title">Do Casual ao Refinado</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE -->
+<section id="sobre" style="padding:6rem 3rem;max-width:1400px;margin:0 auto;">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;" class="about-grid">
+    <div class="reveal">
+      <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=800&auto=format&fit=crop&q=80" alt="Loja AC Imports" class="about-img" style="border:0.5px solid rgba(255,255,255,0.06);"/>
+    </div>
+    <div class="reveal">
+      <div class="section-label">Nossa História</div>
+      <h2 class="font-display" style="font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;margin-top:1.2rem;line-height:1.1;letter-spacing:-0.02em;">
+        Deus acima de tudo.<br/>Estilo acima do óbvio.
+      </h2>
+      <div class="divider" style="margin:2rem 0;max-width:120px;"></div>
+      <p style="font-size:15px;line-height:1.85;color:rgba(245,240,232,0.6);font-weight:300;margin-bottom:1.2rem;">
+        Desde 2017, a AC Imports veste o homem moderno de São Vicente com o que há de melhor em moda masculina. Mais do que uma loja — somos uma curadoria de estilo.
+      </p>
+      <p style="font-size:15px;line-height:1.85;color:rgba(245,240,232,0.6);font-weight:300;margin-bottom:2.5rem;">
+        Localizada na Av. Manoel de Abreu, 74 — Cidade Náutica, nossa missão é clara: oferecer peças que transformam e atendimento que encanta.
+      </p>
+      <div style="display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;">
+        <a href="https://wa.me/message/GRTYEKP3PU3OO1" target="_blank" class="cta-primary">
+          <span>Visitar a Loja</span>
+          <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <div>
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;">Endereço</div>
+          <div style="font-size:13px;color:var(--white);margin-top:3px;">Av. Manoel de Abreu, 74 · SV</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS -->
+<section id="depoimentos" style="padding:6rem 3rem;background:var(--bg2);border-top:0.5px solid rgba(255,255,255,0.06);">
+  <div style="max-width:1400px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:3.5rem;" class="reveal">
+      <div class="section-label" style="justify-content:center;">
+      </div>
+      <div class="section-label" style="justify-content:center;margin-bottom:1rem;">
+        <span style="width:32px;height:1px;background:var(--gold);display:block;"></span>
+        Depoimentos
+        <span style="width:32px;height:1px;background:var(--gold);display:block;"></span>
+      </div>
+      <h2 class="font-display" style="font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;letter-spacing:-0.02em;">
+        O que nossos clientes dizem.
+      </h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;">
+      <div class="testimonial-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text" style="margin:1rem 0;">"Melhor loja de roupa masculina da região. Atendimento impecável, qualidade das peças é incomparável. Já sou cliente fiel há anos."</p>
+        <div style="display:flex;align-items:center;gap:12px;margin-top:1.5rem;">
+          <div style="width:40px;height:40px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:#080808;">RM</div>
+          <div>
+            <div class="testimonial-author">Rafael M.</div>
+            <div style="font-size:12px;color:var(--muted);">Cliente desde 2020</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text" style="margin:1rem 0;">"Fui recomendado por um amigo e me surpreendi com a variedade e o estilo das peças. O atendimento faz toda a diferença. Recomendo muito!"</p>
+        <div style="display:flex;align-items:center;gap:12px;margin-top:1.5rem;">
+          <div style="width:40px;height:40px;background:var(--bg3);border:0.5px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--gold);">LS</div>
+          <div>
+            <div class="testimonial-author">Lucas S.</div>
+            <div style="font-size:12px;color:var(--muted);">Cliente desde 2022</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text" style="margin:1rem 0;">"Comprei algumas peças para uma ocasião especial e recebi elogios de todos. A qualidade das roupas é de outro nível. Voltarei com certeza."</p>
+        <div style="display:flex;align-items:center;gap:12px;margin-top:1.5rem;">
+          <div style="width:40px;height:40px;background:var(--bg3);border:0.5px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--gold);">GO</div>
+          <div>
+            <div class="testimonial-author">Gabriel O.</div>
+            <div style="font-size:12px;color:var(--muted);">Cliente desde 2023</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section style="padding:8rem 3rem;text-align:center;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(201,168,76,0.06) 0%,transparent 65%);pointer-events:none;"></div>
+  <div style="max-width:700px;margin:0 auto;position:relative;z-index:1;" class="reveal">
+    <div class="section-label" style="justify-content:center;margin-bottom:1.5rem;">
+      <span style="width:32px;height:1px;background:var(--gold);display:block;"></span>
+      Pronto para elevar seu estilo?
+      <span style="width:32px;height:1px;background:var(--gold);display:block;"></span>
+    </div>
+    <h2 class="font-display" style="font-size:clamp(2.2rem,5vw,4rem);font-weight:800;letter-spacing:-0.03em;line-height:1;">
+      Seu estilo.<br/>Nossa <span style="color:var(--gold);">obsessão</span>.
+    </h2>
+    <p style="margin:1.5rem auto 3rem;font-size:15px;color:rgba(245,240,232,0.5);font-weight:300;line-height:1.7;max-width:480px;">
+      Visite a AC Imports ou fale conosco agora pelo WhatsApp. Atendimento personalizado, do seu jeito.
+    </p>
+    <a href="https://wa.me/message/GRTYEKP3PU3OO1" target="_blank" class="cta-primary" style="padding:18px 40px;font-size:14px;">
+      <span>Falar com a AC Imports</span>
+      <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="padding:2.5rem 3rem;">
+  <div style="max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+    <div class="font-display" style="font-size:1.1rem;font-weight:800;letter-spacing:-0.02em;color:var(--white);">
+      AC<span style="color:var(--gold);">.</span>IMPORTS
+    </div>
+    <div style="font-size:12px;color:var(--muted);">
+      © 2026 AC Imports. Todos os direitos reservados.
+    </div>
+    <div style="font-size:12px;color:var(--muted);">
+      Av. Manoel de Abreu, 74 · São Vicente, SP
+    </div>
+  </div>
+</footer>
+
+<style>
+@keyframes pulse {
+  0%,100% { opacity:0.3; }
+  50% { opacity:1; }
+}
+@media (max-width:768px) {
+  .about-grid { grid-template-columns:1fr !important; gap:2.5rem !important; }
+  section { padding-left:1.5rem !important; padding-right:1.5rem !important; }
+  .bento-grid { gap:10px; }
+}
+</style>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// CURSOR
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+if(cursor) {
+  document.addEventListener('mousemove', e => {
+    gsap.to(cursor, { x: e.clientX - 5, y: e.clientY - 5, duration: 0.1 });
+    gsap.to(ring, { x: e.clientX - 18, y: e.clientY - 18, duration: 0.18 });
+  });
+}
+
+// HEADER SCROLL
+const header = document.getElementById('header');
+window.addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// HERO ENTRANCE
+const tl = gsap.timeline({ delay: 0.2 });
+tl.to('#h-tag', { opacity:1, y:0, duration:0.7, ease:'power3.out' })
+  .to('#h-title', { opacity:1, y:0, duration:0.9, ease:'power3.out' }, '-=0.4')
+  .to('#h-sub', { opacity:1, y:0, duration:0.8, ease:'power3.out' }, '-=0.5')
+  .to('#h-ctas', { opacity:1, y:0, duration:0.7, ease:'power3.out' }, '-=0.4')
+  .to('#h-stats', { opacity:1, y:0, duration:0.7, ease:'power3.out' }, '-=0.5');
+
+gsap.set(['#h-tag','#h-title','#h-sub','#h-ctas','#h-stats'], { y:40 });
+
+// HERO BG PARALLAX
+gsap.to('#hero-bg', {
+  yPercent: 25,
+  ease: 'none',
+  scrollTrigger: { trigger:'#hero', start:'top top', end:'bottom top', scrub: true }
+});
+
+// SCROLL REVEALS
+gsap.utils.toArray('.reveal').forEach((el, i) => {
+  gsap.fromTo(el,
+    { opacity:0, y:50 },
+    { opacity:1, y:0, duration:0.9, ease:'power3.out',
+      scrollTrigger: { trigger:el, start:'top 88%', toggleActions:'play none none none' },
+      delay: (i % 3) * 0.08
+    }
+  );
+});
+
+// BENTO CARD HOVER
+document.querySelectorAll('.bento-card img').forEach(img => {
+  const card = img.closest('.bento-card');
+  card.addEventListener('mouseenter', () => gsap.to(img, { scale:1.05, duration:0.5, ease:'power2.out' }));
+  card.addEventListener('mouseleave', () => gsap.to(img, { scale:1, duration:0.5, ease:'power2.out' }));
+});
+</script>
+<!-- ══════════ SUBPÁGINA: KITS & PRODUTOS ══════════ -->
+<div id="page-kits" style="display:none;position:fixed;inset:0;z-index:300;background:var(--bg);overflow-y:auto;">
+
+  <div style="position:sticky;top:0;z-index:10;background:rgba(8,8,8,0.94);backdrop-filter:blur(20px);border-bottom:0.5px solid var(--border);padding:1.1rem 3rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+    <div style="display:flex;align-items:center;gap:2rem;">
+      <button onclick="closePage()" style="background:none;border:none;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--muted)'">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Voltar
+      </button>
+      <div class="font-display" style="font-size:1.25rem;font-weight:800;color:var(--white);">AC<span style="color:var(--gold);">.</span> Kits &amp; Produtos</div>
+    </div>
+    <button onclick="openAdmin()" style="display:flex;align-items:center;gap:8px;background:none;border:0.5px solid var(--border);color:var(--gold);font-family:'Syne',sans-serif;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:9px 16px;cursor:pointer;transition:all 0.3s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border)'">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Admin
+    </button>
+  </div>
+
+  <div style="max-width:1400px;margin:0 auto;padding:2.5rem 3rem 6rem;">
+
+    <!-- Filter Tabs -->
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:2.5rem;" id="filter-tabs">
+      <button class="ftab active" onclick="filterProducts('todos')" data-cat="todos">Todos</button>
+      <button class="ftab" onclick="filterProducts('kit')" data-cat="kit">Kits</button>
+      <button class="ftab" onclick="filterProducts('camiseta')" data-cat="camiseta">Camisetas</button>
+      <button class="ftab" onclick="filterProducts('calca')" data-cat="calca">Calças</button>
+      <button class="ftab" onclick="filterProducts('conjunto')" data-cat="conjunto">Conjuntos</button>
+      <button class="ftab" onclick="filterProducts('acessorio')" data-cat="acessorio">Acessórios</button>
+    </div>
+
+    <div id="products-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem;"></div>
+
+    <div id="empty-msg" style="display:none;text-align:center;padding:5rem 0;">
+      <div style="font-size:2rem;margin-bottom:1rem;">📦</div>
+      <div class="font-display" style="font-size:1.2rem;font-weight:700;color:var(--muted);">Nenhum produto nesta categoria ainda.</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:8px;">Use o painel Admin para adicionar produtos.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ PAINEL ADMIN ══════════ -->
+<div id="admin-overlay" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);overflow-y:auto;padding:2rem 1rem;">
+  <div style="max-width:640px;margin:0 auto;background:var(--bg2);border:0.5px solid var(--border);">
+
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:1.5rem 2rem;border-bottom:0.5px solid rgba(255,255,255,0.06);">
+      <div>
+        <div class="font-display" style="font-size:1.05rem;font-weight:800;color:var(--white);">Painel Admin</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">Gerencie kits e produtos da AC Imports</div>
+      </div>
+      <button onclick="closeAdmin()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;line-height:1;padding:4px;" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--muted)'">✕</button>
+    </div>
+
+    <div id="admin-login" style="padding:2rem;">
+      <div style="font-size:13px;color:var(--muted);margin-bottom:1.2rem;">Digite a senha para acessar o painel:</div>
+      <div style="display:flex;gap:0.75rem;">
+        <input id="admin-pw" type="password" placeholder="Senha..." style="flex:1;background:var(--bg3);border:0.5px solid rgba(255,255,255,0.1);color:var(--white);padding:12px 16px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;outline:none;" onkeydown="if(event.key==='Enter')checkPw()"/>
+        <button onclick="checkPw()" style="background:var(--gold);color:#080808;font-family:'Syne',sans-serif;font-weight:700;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;padding:12px 20px;border:none;cursor:pointer;">Entrar</button>
+      </div>
+      <div id="pw-error" style="font-size:12px;color:#e24b4a;margin-top:8px;display:none;">Senha incorreta. Tente: admin123</div>
+    </div>
+
+    <div id="admin-panel" style="display:none;padding:2rem;">
+
+      <div style="padding:1.5rem;background:var(--bg3);border:0.5px solid rgba(255,255,255,0.06);margin-bottom:2rem;">
+        <div class="font-display" style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:1.2rem;">+ Adicionar Produto / Kit</div>
+        <div style="display:flex;flex-direction:column;gap:0.6rem;">
+          <input id="f-name" placeholder="Nome do produto ou kit *" style="background:var(--bg2);border:0.5px solid rgba(255,255,255,0.08);color:var(--white);padding:10px 14px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;outline:none;width:100%;"/>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;">
+            <input id="f-price" placeholder="Preço (ex: R$ 189,90)" style="background:var(--bg2);border:0.5px solid rgba(255,255,255,0.08);color:var(--white);padding:10px 14px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;outline:none;"/>
+            <select id="f-cat" style="background:var(--bg2);border:0.5px solid rgba(255,255,255,0.08);color:var(--white);padding:10px 14px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;outline:none;">
+              <option value="kit">Kit Completo</option>
+              <option value="camiseta">Camiseta</option>
+              <option value="calca">Calça</option>
+              <option value="conjunto">Conjunto</option>
+              <option value="acessorio">Acessório</option>
+            </select>
+          </div>
+          <input id="f-img" placeholder="URL da foto (Unsplash, Instagram, Drive...)" style="background:var(--bg2);border:0.5px solid rgba(255,255,255,0.08);color:var(--white);padding:10px 14px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;outline:none;width:100%;"/>
+          <input id="f-desc" placeholder="Descrição curta do produto" style="background:var(--bg2);border:0.5px solid rgba(255,255,255,0.08);color:var(--white);padding:10px 14px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;outline:none;width:100%;"/>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;">
+            <input id="f-badge" placeholder="Badge (ex: Novo, Destaque)" style="background:var(--bg2);border:0.5px solid rgba(255,255,255,0.08);color:var(--white);padding:10px 14px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;outline:none;"/>
+            <input id="f-link" placeholder="Link WhatsApp (opcional)" style="background:var(--bg2);border:0.5px solid rgba(255,255,255,0.08);color:var(--white);padding:10px 14px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;outline:none;"/>
+          </div>
+        </div>
+        <button onclick="addProduct()" style="margin-top:1rem;background:var(--gold);color:#080808;font-family:'Syne',sans-serif;font-weight:700;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;padding:13px;border:none;cursor:pointer;width:100%;">+ Adicionar ao Catálogo</button>
+      </div>
+
+      <div>
+        <div class="font-display" style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:1rem;">Produtos Cadastrados</div>
+        <div id="admin-product-list"></div>
+        <div id="no-products-msg" style="font-size:13px;color:var(--muted);text-align:center;padding:1.5rem 0;">Nenhum produto ainda. Adicione o primeiro acima.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.ftab {
+  background: none;
+  border: 0.5px solid rgba(255,255,255,0.08);
+  color: var(--muted);
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 8px 18px;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.ftab:hover { border-color: var(--gold); color: var(--gold); }
+.ftab.active { background: var(--gold); color: #080808; border-color: var(--gold); }
+
+.prod-card {
+  background: var(--bg2);
+  border: 0.5px solid rgba(255,255,255,0.06);
+  overflow: hidden;
+  transition: border-color 0.3s, transform 0.3s;
+  position: relative;
+}
+.prod-card:hover { border-color: var(--border); transform: translateY(-4px); }
+.prod-card img { width:100%; height:240px; object-fit:cover; display:block; transition: transform 0.5s; }
+.prod-card:hover img { transform: scale(1.04); }
+.prod-info { padding: 1.2rem; }
+.prod-badge {
+  display: inline-block;
+  background: var(--gold);
+  color: #080808;
+  font-family: 'Syne', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  position: absolute;
+  top: 12px; left: 12px;
+}
+.prod-cat {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.prod-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+.prod-desc { font-size: 12px; color: var(--muted); line-height: 1.5; margin-bottom: 10px; }
+.prod-price { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: var(--gold); }
+.prod-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--gold); color: #080808;
+  font-family: 'Syne', sans-serif; font-weight: 700;
+  font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 10px; text-decoration: none; margin-top: 12px;
+  transition: background 0.2s;
+}
+.prod-btn:hover { background: var(--gold2); }
+
+.admin-prod-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 0;
+  border-bottom: 0.5px solid rgba(255,255,255,0.05);
+}
+.admin-prod-row img { width:48px; height:48px; object-fit:cover; flex-shrink:0; }
+.admin-prod-row-info { flex:1; min-width:0; }
+.admin-prod-row-name { font-size:13px; font-weight:500; color:var(--white); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.admin-prod-row-meta { font-size:11px; color:var(--muted); margin-top:2px; }
+.del-btn {
+  background: none; border: 0.5px solid rgba(226,75,74,0.3);
+  color: #e24b4a; font-size: 11px; padding: 5px 10px;
+  cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif;
+  transition: all 0.2s; flex-shrink:0;
+}
+.del-btn:hover { background: rgba(226,75,74,0.1); border-color: #e24b4a; }
+</style>
+
+<script>
+// ── PRODUCTS DATA ──
+const ADMIN_PW = 'admin123';
+let products = JSON.parse(localStorage.getItem('ac_products') || '[]');
+
+// Default demo products if empty
+if(products.length === 0) {
+  products = [
+    { id:1, name:'Kit Verão Premium', price:'R$ 289,90', cat:'kit', badge:'Destaque', desc:'Camiseta + calça + boné combinando. Look completo do verão.', img:'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=600&auto=format&fit=crop&q=80', link:'https://wa.me/message/GRTYEKP3PU3OO1' },
+    { id:2, name:'Camiseta Oversized', price:'R$ 129,90', cat:'camiseta', badge:'Novo', desc:'Corte moderno, tecido premium. Disponível em várias cores.', img:'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&auto=format&fit=crop&q=80', link:'https://wa.me/message/GRTYEKP3PU3OO1' },
+    { id:3, name:'Calça Jogger Slim', price:'R$ 179,90', cat:'calca', badge:'', desc:'Conforto e estilo em um só look. Casual e refinado.', img:'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=600&auto=format&fit=crop&q=80', link:'https://wa.me/message/GRTYEKP3PU3OO1' },
+    { id:4, name:'Conjunto Executivo', price:'R$ 349,90', cat:'conjunto', badge:'Premium', desc:'Blazer + calça social. Para o homem que domina qualquer ambiente.', img:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&auto=format&fit=crop&q=80', link:'https://wa.me/message/GRTYEKP3PU3OO1' },
+    { id:5, name:'Kit Street Style', price:'R$ 259,90', cat:'kit', badge:'', desc:'Camiseta gráfica + bermuda + tênis. O kit perfeito para o dia a dia.', img:'https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?w=600&auto=format&fit=crop&q=80', link:'https://wa.me/message/GRTYEKP3PU3OO1' },
+    { id:6, name:'Cinto + Carteira', price:'R$ 149,90', cat:'acessorio', badge:'', desc:'Couro legítimo. Acabamento impecável. Presente ideal.', img:'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&auto=format&fit=crop&q=80', link:'https://wa.me/message/GRTYEKP3PU3OO1' },
+  ];
+  saveProducts();
+}
+
+function saveProducts() {
+  localStorage.setItem('ac_products', JSON.stringify(products));
+}
+
+const catLabels = { kit:'Kit', camiseta:'Camiseta', calca:'Calça', conjunto:'Conjunto', acessorio:'Acessório' };
+
+// ── RENDER GRID ──
+let currentFilter = 'todos';
+function renderGrid() {
+  const grid = document.getElementById('products-grid');
+  const emptyMsg = document.getElementById('empty-msg');
+  const filtered = currentFilter === 'todos' ? products : products.filter(p => p.cat === currentFilter);
+  grid.innerHTML = '';
+  if(filtered.length === 0) { emptyMsg.style.display = 'block'; return; }
+  emptyMsg.style.display = 'none';
+  filtered.forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'prod-card';
+    card.innerHTML = `
+      <div style="overflow:hidden;position:relative;">
+        <img src="${p.img || 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=600&auto=format&fit=crop&q=80'}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=600&auto=format&fit=crop&q=80'"/>
+        ${p.badge ? `<div class="prod-badge">${p.badge}</div>` : ''}
+      </div>
+      <div class="prod-info">
+        <div class="prod-cat">${catLabels[p.cat] || p.cat}</div>
+        <div class="prod-name">${p.name}</div>
+        ${p.desc ? `<div class="prod-desc">${p.desc}</div>` : ''}
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div class="prod-price">${p.price}</div>
+        </div>
+        <a href="${p.link || 'https://wa.me/message/GRTYEKP3PU3OO1'}" target="_blank" class="prod-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.975-1.418A9.954 9.954 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.946 7.946 0 01-4.051-1.105l-.29-.172-3.01.859.873-2.944-.19-.302A7.944 7.944 0 014 12c0-4.418 3.582-8 8-8s8 3.582 8 8-3.582 8-8 8z"/></svg>
+          Pedir via WhatsApp
+        </a>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function filterProducts(cat) {
+  currentFilter = cat;
+  document.querySelectorAll('.ftab').forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
+  renderGrid();
+}
+
+// ── PAGE NAV ──
+function openPage(id) {
+  document.getElementById('page-'+id).style.display = 'block';
+  document.body.style.overflow = 'hidden';
+  renderGrid();
+}
+function closePage() {
+  document.getElementById('page-kits').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+// ── ADMIN ──
+function openAdmin() {
+  document.getElementById('admin-overlay').style.display = 'block';
+  document.getElementById('admin-login').style.display = 'block';
+  document.getElementById('admin-panel').style.display = 'none';
+  document.getElementById('pw-error').style.display = 'none';
+  document.getElementById('admin-pw').value = '';
+}
+function closeAdmin() {
+  document.getElementById('admin-overlay').style.display = 'none';
+}
+function checkPw() {
+  if(document.getElementById('admin-pw').value === ADMIN_PW) {
+    document.getElementById('admin-login').style.display = 'none';
+    document.getElementById('admin-panel').style.display = 'block';
+    renderAdminList();
+  } else {
+    document.getElementById('pw-error').style.display = 'block';
+  }
+}
+
+function renderAdminList() {
+  const list = document.getElementById('admin-product-list');
+  const noMsg = document.getElementById('no-products-msg');
+  list.innerHTML = '';
+  if(products.length === 0) { noMsg.style.display='block'; return; }
+  noMsg.style.display = 'none';
+  products.forEach(p => {
+    const row = document.createElement('div');
+    row.className = 'admin-prod-row';
+    row.innerHTML = `
+      <img src="${p.img || ''}" alt="${p.name}" onerror="this.style.display='none'"/>
+      <div class="admin-prod-row-info">
+        <div class="admin-prod-row-name">${p.name}</div>
+        <div class="admin-prod-row-meta">${catLabels[p.cat]||p.cat} · ${p.price}</div>
+      </div>
+      <button class="del-btn" onclick="deleteProduct(${p.id})">Remover</button>`;
+    list.appendChild(row);
+  });
+}
+
+function addProduct() {
+  const name = document.getElementById('f-name').value.trim();
+  const price = document.getElementById('f-price').value.trim();
+  const cat = document.getElementById('f-cat').value;
+  const img = document.getElementById('f-img').value.trim();
+  const desc = document.getElementById('f-desc').value.trim();
+  const badge = document.getElementById('f-badge').value.trim();
+  const link = document.getElementById('f-link').value.trim();
+  if(!name || !price) { alert('Nome e preço são obrigatórios.'); return; }
+  products.unshift({ id: Date.now(), name, price, cat, img, desc, badge, link: link || 'https://wa.me/message/GRTYEKP3PU3OO1' });
+  saveProducts();
+  ['f-name','f-price','f-img','f-desc','f-badge','f-link'].forEach(id => document.getElementById(id).value='');
+  renderAdminList();
+  renderGrid();
+  alert('✅ Produto adicionado com sucesso!');
+}
+
+function deleteProduct(id) {
+  if(!confirm('Remover este produto?')) return;
+  products = products.filter(p => p.id !== id);
+  saveProducts();
+  renderAdminList();
+  renderGrid();
+}
+</script>
+</body>
